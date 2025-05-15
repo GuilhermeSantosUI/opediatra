@@ -1,170 +1,155 @@
 import { cn } from '@/app/utils';
 import { Button } from '@/views/components/ui/button';
 import { Card, CardContent } from '@/views/components/ui/card';
-import {
-  Select,
-  SelectContent,
-  SelectItem,
-  SelectTrigger,
-  SelectValue,
-} from '@/views/components/ui/select';
+import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from '@/views/components/ui/select';
 import { Tabs, TabsList, TabsTrigger } from '@/views/components/ui/tabs';
-import {
-  ArrowUpRight,
-  Clock,
-  Key,
-  Lock,
-  ShieldCheck,
-  Users,
-} from '@phosphor-icons/react';
+import { ArrowUpRight, Clock, Heartbeat, ShieldCheck, Stethoscope, UserCirclePlus } from '@phosphor-icons/react';
 import { useState } from 'react';
 import { Link } from 'react-router-dom';
 
-const reservationValues = [
+const pediatricValues = [
   {
     id: 'efficiency',
-    name: 'Eficiência',
+    name: 'Agilidade',
     description:
-      'Otimizamos o uso dos espaços do SergipeTec através de um sistema ágil que permite reservas rápidas e gestão inteligente dos recursos disponíveis.',
+      'Oferecemos um sistema rápido e intuitivo para agendamento de consultas pediátricas, garantindo que seu filho receba atendimento no momento certo.',
     icon: Clock,
     color: 'text-blue-600',
     principles: [
-      'Agendamento rápido em poucos cliques',
-      'Visualização em tempo real da disponibilidade',
-      'Redução de conflitos e sobreposições',
-      'Otimização do uso dos espaços físicos',
+      'Agendamento em poucos cliques',
+      'Disponibilidade em tempo real',
+      'Redução de tempo de espera',
+      'Lembretes automáticos por SMS/email',
     ],
     testimonial: {
       quote:
-        'Com o sistema Reserva, conseguimos aumentar em 40% a utilização das nossas salas, eliminando tempo ocioso e conflitos de agendamento.',
-      author: 'Carlos Mendes',
-      role: 'Coordenador de Infraestrutura',
+        'Com o oPediatra, consegui marcar uma consulta urgente para minha filha em menos de 2 minutos, sem precisar ficar horas no telefone.',
+      author: 'Mariana Santos',
+      role: 'Mãe da pequena Laura',
       image:
-        'https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcQNcmfaDAi-TkIeKTW-BdtJebwQRoEvDPx3UA&s',
+        'https://images.unsplash.com/photo-1573497019940-1c28c88b4f3e?q=80&w=400',
     },
     image:
-      'https://www.se.gov.br/anexos/uploads/image/image/361371/slide_1c2be5e153db308ab517252b94821d69.jpg',
+      'https://images.unsplash.com/photo-1631815588090-d4bfec5b1ccb?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D&auto=format&fit=crop&w=2070&q=80',
   },
   {
     id: 'transparency',
     name: 'Transparência',
     description:
-      'Todas as reservas são públicas e auditáveis, garantindo equidade no acesso aos espaços do SergipeTec e uso adequado dos recursos compartilhados.',
+      'Todas as informações sobre consultas, especialistas e valores são claramente apresentadas, sem surpresas ou custos ocultos.',
     icon: ShieldCheck,
     color: 'text-green-600',
     principles: [
-      'Registro claro de todas as reservas',
-      'Critérios públicos para priorização',
-      'Relatórios de utilização disponíveis',
-      'Sistema aberto para consulta',
+      'Valores explícitos antes do agendamento',
+      'Histórico completo de consultas',
+      'Perfil detalhado dos pediatras',
+      'Políticas claras de cancelamento',
     ],
     testimonial: {
       quote:
-        'A transparência do sistema eliminou conflitos sobre quem tinha direito de uso das salas. Agora todos podem ver a agenda pública.',
-      author: 'Ana Paula Silva',
-      role: 'Gestora Administrativa',
+        'Adoro saber exatamente quanto vou pagar antes de marcar a consulta e poder ver todo o histórico médico do meu filho em um só lugar.',
+      author: 'Carlos Eduardo',
+      role: 'Pai do João Miguel',
       image:
-        'https://images.unsplash.com/photo-1573497019940-1c28c88b4f3e?q=80&w=400',
+        'https://images.unsplash.com/photo-1507003211169-0a1dd7228f2d?q=80&w=400',
     },
     image:
-      'https://www.se.gov.br/anexos/uploads/image/image/365710/97ee5ff6e389109cf705db97d596f281.jpg',
+      'https://images.unsplash.com/photo-1629909613657-27f26a6148e8?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D&auto=format&fit=crop&w=2070&q=80',
   },
   {
     id: 'accessibility',
     name: 'Acessibilidade',
     description:
-      'Garantimos que todos os colaboradores e parceiros do SergipeTec tenham acesso igualitário aos espaços, com um sistema intuitivo e inclusivo.',
-    icon: Key,
+      'Garantimos que todas as famílias tenham acesso fácil a pediatras qualificados, com opções para diferentes necessidades.',
+    icon: UserCirclePlus,
     color: 'text-purple-600',
     principles: [
       'Interface simples e intuitiva',
-      'Acesso via múltiplos dispositivos',
-      'Suporte para diferentes níveis de acesso',
-      'Sistema disponível 24/7',
+      'Acesso via celular ou computador',
+      'Suporte para necessidades especiais',
+      'Disponível 24 horas por dia',
     ],
     testimonial: {
       quote:
-        'Mesmo não sendo expert em tecnologia, consegui fazer minha primeira reserva em menos de 2 minutos. O sistema é muito fácil de usar!',
-      author: 'Roberto Almeida',
-      role: 'Pesquisador Associado',
+        'Mesmo sendo avó e não entendendo muito de tecnologia, consigo marcar consultas para meus netos sem dificuldade.',
+      author: 'Dona Maria',
+      role: 'Avó do Pedro e Sofia',
       image:
-        'https://images.unsplash.com/photo-1507003211169-0a1dd7228f2d?q=80&w=400',
+        'https://images.unsplash.com/photo-1573496359142-b8d87734a5a2?q=80&w=400',
     },
     image:
-      'https://www.se.gov.br/anexos/uploads/image/image/359971/39053b63c919befad6102580172261be.jpeg',
+      'https://images.unsplash.com/photo-1579684453423-f84349ef60b0?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D&auto=format&fit=crop&w=2089&q=80',
   },
   {
     id: 'seguranca',
     name: 'Segurança',
     description:
-      'Protegemos os dados e garantimos a integridade do sistema, com controles de acesso robustos e registro seguro de todas as transações.',
-    icon: Lock,
+      'Protegemos todos os dados médicos das crianças com os mais altos padrões de segurança e confidencialidade.',
+    icon: Heartbeat,
     color: 'text-red-600',
     principles: [
-      'Autenticação segura de usuários',
-      'Registro imutável de reservas',
+      'Prontuários eletrônicos seguros',
       'Proteção de dados pessoais',
-      'Backup automático das informações',
+      'Acesso restrito a profissionais',
+      'Conformidade com leis de proteção',
     ],
     testimonial: {
       quote:
-        'Depois que implementamos o sistema Reserva, eliminamos completamente os problemas com reservas não autorizadas ou conflitos de uso.',
-      author: 'Fernanda Costa',
-      role: 'Coordenadora de TI',
+        'Como médica, valorizo muito a segurança dos dados dos meus pacientes. O oPediatra oferece total confiabilidade.',
+      author: 'Dra. Fernanda Costa',
+      role: 'Pediatra',
       image:
-        'https://images.unsplash.com/photo-1573496359142-b8d87734a5a2?q=80&w=400',
+        'https://images.unsplash.com/photo-1559839734-2b71ea197ec2?q=80&w=400',
     },
     image:
-      'https://sergipetec.org.br/wp-content/uploads/2025/01/SERGIPETEC-BIO.jpg',
+      'https://images.unsplash.com/photo-1579165466740-5041e3175b95?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D&auto=format&fit=crop&w=2070&q=80',
   },
   {
-    id: 'collaboration',
-    name: 'Colaboração',
+    id: 'specialization',
+    name: 'Especialização',
     description:
-      'Promovemos o compartilhamento inteligente dos espaços, facilitando o trabalho em equipe e o uso coletivo dos recursos do SergipeTec.',
-    icon: Users,
+      'Conectamos você apenas com pediatras qualificados e especialistas em diversas áreas da saúde infantil.',
+    icon: Stethoscope,
     color: 'text-indigo-600',
     principles: [
-      'Sistema de reservas compartilhadas',
-      'Notificações para equipes',
-      'Integração com calendários corporativos',
-      'Espaços para trabalho colaborativo',
+      'Pediatras certificados',
+      'Diversas especialidades disponíveis',
+      'Avaliações verificadas',
+      'Filtros por área de atuação',
     ],
     testimonial: {
       quote:
-        'O sistema nos ajudou a organizar melhor nossas reuniões interdepartamentais. Agora é fácil encontrar salas e horários que atendam a todos.',
+        'Encontrei uma alergista infantil excelente para meu filho através do oPediatra, algo que estava procurando há meses.',
       author: 'Ricardo Oliveira',
-      role: 'Líder de Projetos',
+      role: 'Pai do pequeno Davi',
       image:
         'https://images.unsplash.com/photo-1560250097-0b93528c311a?q=80&w=400',
     },
     image:
-      'https://static.wixstatic.com/media/35c37d_3d29985aca904de6989546fa7c8c74b1~mv2.jpg/v1/fill/w_1800,h_760,al_c,q_85,enc_avif,quality_auto/35c37d_3d29985aca904de6989546fa7c8c74b1~mv2.jpg',
+      'https://images.unsplash.com/photo-1576091160550-2173dba999ef?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D&auto=format&fit=crop&w=2070&q=80',
   },
 ];
 
 export function AboutSectionCompanyValues() {
-  const [activeValue, setActiveValue] = useState<string>(
-    reservationValues[0].id
-  );
+  const [activeValue, setActiveValue] = useState<string>(pediatricValues[0].id);
 
   const currentValue =
-    reservationValues.find((value) => value.id === activeValue) ||
-    reservationValues[0];
+    pediatricValues.find((value) => value.id === activeValue) ||
+    pediatricValues[0];
 
   return (
     <section className="py-24">
       <div className="container mx-auto px-4 md:px-6 2xl:max-w-[1400px]">
         <div className="mx-auto mb-16 max-w-3xl space-y-4 text-center">
-          <div className="bg-primary/10 text-primary inline-block rounded-lg px-3 py-1 text-sm">
-            Nossos Princípios
+          <div className="bg-blue-100 text-blue-600 dark:bg-blue-900 dark:text-blue-200 inline-block rounded-lg px-3 py-1 text-sm">
+            Nossos Diferenciais
           </div>
           <h2 className="text-3xl font-bold tracking-tight md:text-4xl">
-            O que guia o sistema Reserva
+            Cuidado pediátrico com excelência
           </h2>
           <p className="text-muted-foreground">
-            Valores fundamentais que garantem uma experiência justa, eficiente e
-            transparente no agendamento dos espaços do SergipeTec.
+            Valores que garantem atendimento de qualidade, segurança e
+            comodidade para sua família.
           </p>
         </div>
 
@@ -177,10 +162,10 @@ export function AboutSectionCompanyValues() {
             <div className="w-full md:hidden">
               <Select value={activeValue} onValueChange={setActiveValue}>
                 <SelectTrigger className="w-full">
-                  <SelectValue placeholder="Selecione um princípio" />
+                  <SelectValue placeholder="Selecione um diferencial" />
                 </SelectTrigger>
                 <SelectContent>
-                  {reservationValues.map((value) => (
+                  {pediatricValues.map((value) => (
                     <SelectItem key={value.id} value={value.id}>
                       <div className="flex items-center gap-2">
                         <value.icon
@@ -196,13 +181,13 @@ export function AboutSectionCompanyValues() {
             </div>
 
             <TabsList className="hidden h-auto bg-transparent p-1 md:flex">
-              {reservationValues.map((value) => (
+              {pediatricValues.map((value) => (
                 <TabsTrigger
                   key={value.id}
                   value={value.id}
                   className={cn(
-                    'data-[state=active]:bg-muted gap-2',
-                    'data-[state=active]:border-border border border-transparent'
+                    'data-[state=active]:bg-blue-100 data-[state=active]:text-blue-600 dark:data-[state=active]:bg-blue-900/50 dark:data-[state=active]:text-blue-200 gap-2',
+                    'data-[state=active]:border-blue-200 dark:data-[state=active]:border-blue-800 border border-transparent'
                   )}
                 >
                   <value.icon
@@ -218,7 +203,12 @@ export function AboutSectionCompanyValues() {
           <div className="grid items-center gap-8 md:grid-cols-12">
             <div className="space-y-6 md:col-span-6">
               <div className="mb-4 flex items-center gap-4">
-                <div className={cn('rounded-xl p-2.5', 'bg-muted')}>
+                <div
+                  className={cn(
+                    'rounded-xl p-2.5',
+                    'bg-blue-100 dark:bg-blue-900/50'
+                  )}
+                >
                   <currentValue.icon
                     className={cn('h-7 w-7', currentValue.color)}
                     weight="bold"
@@ -247,7 +237,7 @@ export function AboutSectionCompanyValues() {
               </div>
 
               {currentValue.testimonial && (
-                <Card className="bg-muted/30 mt-6 p-0">
+                <Card className="bg-blue-100/30 dark:bg-blue-900/20 mt-6 p-0">
                   <CardContent className="p-6">
                     <div className="mb-4 flex flex-col items-start gap-4 sm:flex-row sm:items-center">
                       <div className="relative h-12 w-12 flex-shrink-0 overflow-hidden rounded-full">
@@ -279,7 +269,7 @@ export function AboutSectionCompanyValues() {
                 <div className="relative aspect-[4/3] overflow-hidden rounded-xl shadow-lg">
                   <img
                     src={currentValue.image}
-                    alt={`Ilustração do princípio ${currentValue.name}`}
+                    alt={`Ilustração do diferencial ${currentValue.name}`}
                     className="h-full w-full object-cover"
                   />
                   <div className="absolute inset-0 bg-gradient-to-t from-black/50 to-transparent" />
@@ -312,12 +302,11 @@ export function AboutSectionCompanyValues() {
 
         <div className="mt-16 text-center">
           <p className="text-muted-foreground mx-auto mb-6 max-w-2xl">
-            Esses princípios garantem que o sistema Reserva atenda às
-            necessidades de todos os usuários do SergipeTec. Quer fazer sua
-            primeira reserva?
+            Esses diferenciais garantem que seu filho receba o melhor
+            atendimento pediátrico. Pronto para agendar sua primeira consulta?
           </p>
-          <Button asChild size="lg">
-            <Link to="/reservar">Reservar Agora</Link>
+          <Button asChild size="lg" className="bg-blue-600 hover:bg-blue-700">
+            <Link to="/agendar">Agendar Consulta</Link>
           </Button>
         </div>
       </div>
