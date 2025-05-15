@@ -1,0 +1,23 @@
+apiVersion: networking.k8s.io/v1
+kind: Ingress
+metadata:
+  annotations:
+    traefik.ingress.kubernetes.io/router.middlewares: traefik-http-to-https-redirectscheme@kubernetescrd,traefik-enable-cors-header@kubernetescrd
+  name: agapesistemas-PROJETO-ing
+  namespace: agapesistemas-ns-AMBIENTE
+spec:
+  ingressClassName: traefik
+  rules:
+    - host: PROJETOAMBIENTE.agapesistemas.com.br
+      http:
+        paths:
+          - backend:
+              service:
+                name: agapesistemas-PROJETO-svc
+                port:
+                  number: 8080
+            pathType: ImplementationSpecific
+  tls:
+    - hosts:
+        - PROJETOAMBIENTE.agapesistemas.com.br
+      secretName: agapesistemas-PROJETOAMBIENTE-tls

@@ -1,0 +1,19 @@
+apiVersion: autoscaling/v2
+kind: HorizontalPodAutoscaler
+metadata:
+  name: agapesistemas-PROJETO-hpa
+  namespace: agapesistemas-ns-AMBIENTE
+spec:
+  maxReplicas: 1
+  metrics:    
+    - resource:
+        name: memory
+        target:
+          averageValue: 780Mi
+          type: AverageValue
+      type: Resource
+  minReplicas: 1
+  scaleTargetRef:
+    apiVersion: apps/v1
+    kind: Deployment
+    name: PROJETO-dp-AMBIENTE

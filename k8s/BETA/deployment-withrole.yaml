@@ -1,0 +1,64 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  labels:
+    app: PROJETO
+    workload.user.cattle.io/workloadselector: apps.deployment-agapesistemas-ns-AMBIENTE-PROJETO
+  name: PROJETO-dp-AMBIENTE
+  namespace: agapesistemas-ns-AMBIENTE
+spec:
+  replicas: 1
+  strategy:
+    rollingUpdate:
+      maxSurge: 25%
+      maxUnavailable: 25%
+    type: RollingUpdate
+  selector:
+    matchLabels:
+      workload.user.cattle.io/workloadselector: apps.deployment-agapesistemas-ns-AMBIENTE-PROJETO
+  template:
+    metadata:
+      labels:
+        app: PROJETO
+        workload.user.cattle.io/workloadselector: apps.deployment-agapesistemas-ns-AMBIENTE-PROJETO
+      namespace: agapesistemas-ns-AMBIENTE
+    spec:
+      affinity:
+        podAntiAffinity:
+          requiredDuringSchedulingIgnoredDuringExecution:
+            - labelSelector:
+                matchExpressions:
+                  - key: app
+                    operator: In
+                    values:
+                      - PROJETO
+              topologyKey: kubernetes.io/hostname
+      containers:
+        - env:
+            - name: TZ
+              value: America/Maceio
+          envFrom:
+            - secretRef:
+                name: agapesistemas-db-credential-sc
+            - secretRef:
+                name: agapesistemas-PROJETO-sc
+            - configMapRef:
+                name: agapesistemas-PROJETO-cm
+            - secretRef:
+                name: agapesistemas-db-role-credential-sc
+                optional: false
+          image: IMAGEM:TAG          
+          name: PROJETO
+          ports:
+            - containerPort: 8080
+              name: http
+              protocol: TCP
+          resources:
+            limits:
+              memory: 1000Mi
+            requests:
+              memory: 780Mi
+      nodeSelector:
+        doks.digitalocean.com/node-pool: pool-k8s-agapesistemas-app-AMBIENTE
+      imagePullSecrets:
+        - name: registry-agapesistemas
