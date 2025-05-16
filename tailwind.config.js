@@ -54,7 +54,7 @@ const config = {
         ],
       },
       colors: {
-        primary: '#FF385C',
+        primary: '#2563eb',
         secondary: '#ffffff',
         muted: {
           DEFAULT: 'hsl(var(--muted))',
@@ -145,7 +145,7 @@ const config = {
             height: value,
           }),
         },
-        { values: theme('spacing') },
+        { values: theme('spacing') }
       );
     },
   ],
